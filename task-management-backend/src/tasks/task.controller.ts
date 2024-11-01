@@ -10,9 +10,9 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new task' }) // Summary for the operation
-  @ApiResponse({ status: 201, description: 'The task has been successfully created.' }) // Response description
-  @ApiResponse({ status: 400, description: 'Bad Request.' }) // Response for bad request
+  @ApiOperation({ summary: 'Create a new task' }) 
+  @ApiResponse({ status: 201, description: 'The task has been successfully created.' }) 
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
   async create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
     return this.taskService.createTask(createTaskDto.title, createTaskDto.description, createTaskDto.status);
   }

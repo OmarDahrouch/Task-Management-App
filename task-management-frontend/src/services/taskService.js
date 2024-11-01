@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000';
+const PORT = 3000;
+const BASE_URL = `http://localhost:${PORT}`;
 
 export async function fetchTasks() {
   try {
@@ -17,7 +18,7 @@ export async function fetchTasks() {
 
 export async function addTask(newData) {
   try {
-    const response = await axios.post('http://localhost:3000/tasks', newData)
+    const response = await axios.post(`${BASE_URL}/tasks`, newData)
     return response.data
   } catch (error) {
     console.error('Failed to add task:', error)
@@ -27,7 +28,7 @@ export async function addTask(newData) {
 
 export async function patchTask(id, updatedData) {
   try {
-    const response = await axios.patch(`http://localhost:3000/tasks/${id}`, updatedData)
+    const response = await axios.patch(`${BASE_URL}/tasks/${id}`, updatedData)
     return response.data
   } catch (error) {
     console.error('Failed to update task:', error)
