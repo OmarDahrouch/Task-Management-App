@@ -11,9 +11,9 @@
         class="px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-200 ease-in-out hover:shadow-lg hover:bg-white"
       >
         <option value="" class="text-gray-500">All</option>
-        <option value="To Do" class="bg-red-100 text-red-700 font-semibold">To Do</option>
-        <option value="In Progress" class="bg-blue-100 text-blue-700 font-semibold">In Progress</option>
-        <option value="Done" class="bg-green-100 text-green-700 font-semibold">Done</option>
+        <option value="to_do" class="bg-red-100 text-red-700 font-semibold">To Do</option>
+        <option value="in_progress" class="bg-blue-100 text-blue-700 font-semibold">In Progress</option>
+        <option value="done" class="bg-green-100 text-green-700 font-semibold">Done</option>
       </select>
     </div>
     <!-- Add Button Part -->
@@ -49,17 +49,17 @@
             <span
               :class="[ 
                 'inline-flex items-center px-3 py-1 text-sm font-semibold rounded-full',
-                item.status === 'To Do' ? 'bg-red-100 text-red-700' :
-                item.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
-                item.status === 'Done' ? 'bg-green-100 text-green-700' : ''
+                item.status === 'to_do' ? 'bg-red-100 text-red-700' :
+                item.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
+                item.status === 'done' ? 'bg-green-100 text-green-700' : ''
               ]"
             >
               <span
                 :class="[ 
                   'w-2 h-2 mr-2 rounded-full',
-                  item.status === 'To Do' ? 'bg-red-500' :
-                  item.status === 'In Progress' ? 'bg-blue-500' :
-                  item.status === 'Done' ? 'bg-green-500' : ''
+                  item.status === 'to_do' ? 'bg-red-500' :
+                  item.status === 'in_progress' ? 'bg-blue-500' :
+                  item.status === 'done' ? 'bg-green-500' : ''
                 ]"
               ></span>
               {{ item.status }}
@@ -109,7 +109,7 @@ async function fetchTaches() {
 }
 
 function openAddModal() {
-  selectedItem.value = { title: '', description: '', status: 'To Do' }
+  selectedItem.value = { title: '', description: '', status: 'to_do' }
   isModalVisible.value = true
 }
 
