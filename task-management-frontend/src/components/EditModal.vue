@@ -27,9 +27,9 @@
               v-model="formData.status"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg"
             >
-              <option value="To Do">To Do</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Done">Done</option>
+              <option value="to_do">To Do</option>
+              <option value="in_progress">In Progress</option>
+              <option value="done">Done</option>
             </select>
           </div>
           <div class="flex justify-end space-x-2">
@@ -51,11 +51,11 @@
   const props = defineProps({
     visible: Boolean,
     item: Object
-  })
+  })  
   
   const emit = defineEmits(['update:visible', 'save'])
   const formData = ref({ ...props.item })
-  
+
   const isEditMode = computed(() => !!props.item.id)
   
   watch(
