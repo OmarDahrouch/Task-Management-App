@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Task } from '../entities/task.entity'; // Adjust the path as necessary
+import { Task } from '../entities/task.entity'; 
+import { TaskStatus } from '../tasks/status.enum';
 
 @Injectable()
 export class TaskService {
@@ -10,11 +11,10 @@ export class TaskService {
         private taskRepository: Repository<Task>,
     ) {}
 
-    // Define methods for creating, retrieving, updating, and deleting tasks
-    async createTask(title: string, description: string, status: 'To Do' | 'In Progress' | 'Done'): Promise<Task> {
+    async createTask(title: string, description: string, status: TaskStatus): Promise<Task> {
         const task = this.taskRepository.create({ title, description, status });
         return this.taskRepository.save(task);
-    }
+      }
 
     async findAll(): Promise<Task[]> {
         return this.taskRepository.find();
