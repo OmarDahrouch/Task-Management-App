@@ -1,14 +1,37 @@
 <template>
-  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-    <div class="flex justify-end p-4">
-      <button
-        @click="openAddModal"
-        class="relative flex items-center justify-center w-10 h-10 bg-orange-600 text-white rounded-full shadow-lg transition duration-300 ease-in-out hover:bg-black-700 focus:outline-none focus:ring-2 focus:ring-white-500"
+  <!-- Filter And Add Button Layer -->
+  <div class="flex justify-between mb-4 bg-white shadow-lg p-4 rounded-lg border border-gray-200">
+    <!-- Filter Part -->
+    <div class="flex items-center">
+      <label for="statusFilter" class="mr-4 font-semibold text-gray-800">Filter by Status:</label>
+      <select
+        id="statusFilter"
+        v-model="statusFilter"
+        @change="applyStatusFilter"
+        class="px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-200 ease-in-out hover:shadow-lg hover:bg-white"
       >
-        <i class="fas fa-plus text-2xl"></i>
-        <span class="absolute left-full ml-2 opacity-0 transition-opacity duration-300 ease-in-out transform translate-x-1 hover:opacity-100 hover:translate-x-0">Add Task</span>
-      </button>
+        <option value="" class="text-gray-500">All</option>
+        <option value="To Do" class="bg-red-100 text-red-700 font-semibold">To Do</option>
+        <option value="In Progress" class="bg-blue-100 text-blue-700 font-semibold">In Progress</option>
+        <option value="Done" class="bg-green-100 text-green-700 font-semibold">Done</option>
+      </select>
     </div>
+    <!-- Add Button Part -->
+    <button
+      @click="openAddModal"
+      class="relative flex items-center justify-center bg-orange-600 text-white rounded-full shadow-lg transition-all duration-300 ease-in-out overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500"
+      :class="{ 'w-32': isHovered, 'w-10 h-10': !isHovered }"
+      @mouseover="isHovered = true"
+      @mouseleave="isHovered = false"
+    >
+      <i class="fas fa-plus text-2xl transition-all duration-300 ease-in-out"></i>
+      <span v-if="isHovered" class="ml-3 whitespace-nowrap transition-opacity duration-300 ease-in-out">
+        Add Task
+      </span>
+    </button>
+  </div>
+  <!-- List Of Tasks Part -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
     <table class="min-w-full bg-white">
       <thead class="bg-orange-100">
         <tr>
@@ -19,7 +42,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in items" :key="index" class="hover:bg-gray-50 transition duration-200">
+        <tr v-for="(item, index) in filteredItems" :key="index" class="hover:bg-gray-50 transition duration-200">
           <td class="text-center px-6 py-4 border-b border-gray-300">{{ item.title }}</td>
           <td class="text-center px-6 py-4 border-b border-gray-300">{{ item.description }}</td>
           <td class="text-center px-6 py-4 border-b border-gray-300">
@@ -42,7 +65,7 @@
               {{ item.status }}
             </span>
           </td>
-          <td class="item-center px-6 py-4 border-b border-gray-300">
+          <td class="text-center px-6 py-4 border-b border-gray-300">
             <div class="flex justify-center space-x-2">
               <button @click="openEditModal(item)" class="flex items-center text-black-500 hover:text-blue-700">
                 <i class="fas fa-edit mr-1"></i>
@@ -55,6 +78,7 @@
         </tr>
       </tbody>
     </table>
+    <!-- Modal Of Adding & Editing Part -->
     <EditModal
       :visible="isModalVisible"
       :item="selectedItem"
@@ -65,14 +89,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { fetchTasks, patchTask, addTask, deleteTask } from '../services/taskService'
 import EditModal from './EditModal.vue'
 
 const items = ref([])
+const statusFilter = ref('')
 const isModalVisible = ref(false)
 const selectedItem = ref({})
+const isHovered = ref(false)
+
 
 async function fetchTaches() {
   try {
@@ -116,6 +142,12 @@ async function deleteTache(id) {
     console.error('Failed to delete task:', error)
   }
 }
+
+const filteredItems = computed(() => {
+  return statusFilter.value
+    ? items.value.filter(item => item.status === statusFilter.value)
+    : items.value
+})
 
 onMounted(() => {
   fetchTaches()

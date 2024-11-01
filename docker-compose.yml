@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:15.8
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: post123
+      POSTGRES_DB: task_management
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./task-management-backend
+    container_name: nestjs_backend
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: post123
+      DB_NAME: task_management
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+
+
+  frontend:
+    build:
+      context: ./task-management-frontend
+    container_name: vue_frontend
+    ports:
+      - "8080:80"
+    environment:
+      VITE_BACKEND_URL: http://localhost:3000
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
