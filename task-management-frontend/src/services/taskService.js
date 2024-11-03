@@ -38,7 +38,7 @@ export async function patchTask(id, updatedData) {
 
 export async function deleteTask(id) {
   try {
-    await axios.delete(`http://localhost:3000/tasks/${id}`)
+    await axios.delete(`${BASE_URL}/tasks/${id}`)
   } catch (error) {
     console.error('Failed to delete task:', error)
     throw error
