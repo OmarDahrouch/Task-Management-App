@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TaskController } from './task.controller';
 import { TaskService } from './task.service';
+import { TaskStatus } from './status.enum';
 
 describe('TaskController', () => {
   let controller: TaskController;
@@ -31,7 +32,7 @@ describe('TaskController', () => {
   });
 
   it('should create a task', async () => {
-    const result = await controller.create({ title: 'Test Task', description: 'Task Description', status: 'To Do' });
+    const result = await controller.create({ title: 'Test Task', description: 'Task Description', status: TaskStatus.TODO });
     expect(result).toEqual({ id: 1, title: 'Test Task' });
     expect(service.createTask).toHaveBeenCalled();
   });

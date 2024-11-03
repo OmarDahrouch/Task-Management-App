@@ -15,6 +15,6 @@ export class CreateTaskDto {
     description: 'The status of the task',
     enum: ['to_do', 'in_progress', 'done'],
   })
-  @IsEnum(TaskStatus,)
+  @IsEnum(TaskStatus)
   status: TaskStatus;
 }
