@@ -1,17 +1,14 @@
 import axios from 'axios'
 
-const PORT = 3000;
+const PORT = import.meta.env.VITE_BACKEND_PORT || 3000;
 const BASE_URL = `http://localhost:${PORT}`;
 
 export async function fetchTasks() {
   try {
-    const response = await fetch(`${BASE_URL}/tasks`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch tasks');
-    }
-    return await response.json();
+    const response = await axios.get(`${BASE_URL}/tasks`);
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error('Failed to fetch tasks:', error);
     throw error;
   }
 }

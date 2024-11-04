@@ -10,10 +10,9 @@
         @change="applyStatusFilter"
         class="px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-200 ease-in-out hover:shadow-lg hover:bg-white"
       >
-        <option value="" class="text-gray-500">All</option>
-        <option value="to_do" class="bg-red-100 text-red-700 font-semibold">To Do</option>
-        <option value="in_progress" class="bg-blue-100 text-blue-700 font-semibold">In Progress</option>
-        <option value="done" class="bg-green-100 text-green-700 font-semibold">Done</option>
+        <option v-for="option in statusOptions" :value="option.value" :class="option.class" :key="option.value">
+          {{ option.label }}
+        </option>
       </select>
     </div>
     <!-- Add Button Part -->
@@ -62,7 +61,7 @@
                   item.status === 'done' ? 'bg-green-500' : ''
                 ]"
               ></span>
-              {{ item.status }}
+              {{ statusText[item.status] }}
             </span>
           </td>
           <td class="text-center px-6 py-4 border-b border-gray-300">
@@ -99,6 +98,20 @@ const isModalVisible = ref(false)
 const selectedItem = ref({})
 const isHovered = ref(false)
 
+// For Converting Status To Text 
+const statusText = {
+  to_do: 'To Do',
+  in_progress: 'In Progress',
+  done: 'Done',
+}
+
+// Status Options For Filtering
+const statusOptions = [
+  { label: 'All', value: '' },
+  { label: 'To Do', value: 'to_do', class: 'bg-red-100 text-red-700 font-semibold' },
+  { label: 'In Progress', value: 'in_progress', class: 'bg-blue-100 text-blue-700 font-semibold' },
+  { label: 'Done', value: 'done', class: 'bg-green-100 text-green-700 font-semibold' }
+];
 
 async function fetchTaches() {
   try {
@@ -108,16 +121,7 @@ async function fetchTaches() {
   }
 }
 
-function openAddModal() {
-  selectedItem.value = { title: '', description: '', status: 'to_do' }
-  isModalVisible.value = true
-}
-
-function openEditModal(item) {
-  selectedItem.value = { ...item }
-  isModalVisible.value = true
-}
-
+// Conditionally Add or Edit Task
 async function saveEdit(editedData) {
   try {
     if (editedData.id) {
@@ -134,6 +138,16 @@ async function saveEdit(editedData) {
   }
 }
 
+function openAddModal() {
+  selectedItem.value = { title: '', description: '', status: 'to_do' }
+  isModalVisible.value = true
+}
+
+function openEditModal(item) {
+  selectedItem.value = { ...item }
+  isModalVisible.value = true
+}
+
 async function deleteTache(id) {
   try {
     await deleteTask(id)
@@ -143,6 +157,7 @@ async function deleteTache(id) {
   }
 }
 
+// Apply Filter By Status
 const filteredItems = computed(() => {
   return statusFilter.value
     ? items.value.filter(item => item.status === statusFilter.value)
