@@ -67,7 +67,7 @@ The API follows RESTful principles with the following endpoints for managing tas
 
 ### Swagger Documentation
 Swagger is enabled for documenting and testing API endpoints. Once the backend is running, access the Swagger documentation at:
-- `http://localhost:3000/api`
+- `http://localhost:3000/api-doc`
 
 ## Testing
 
