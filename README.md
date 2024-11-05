@@ -71,9 +71,13 @@ Swagger is enabled for documenting and testing API endpoints. Once the backend i
 
 ## Testing
 
-To run tests with Jest, execute the following command:
+To run tests with Jest in the backend, execute the following command:
 ```bash
 npm run test
+```
+To run tests with Jest in the frontend, execute the following command:
+```bash
+npm run test:unit
 ```
 
 ## Environment Variables
