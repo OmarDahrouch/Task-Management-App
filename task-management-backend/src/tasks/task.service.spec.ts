@@ -3,6 +3,7 @@ import { TaskService } from './task.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Task } from '../entities/task.entity';
 import { Repository } from 'typeorm';
+import { TaskStatus } from './status.enum';
 
 describe('TaskService', () => {
   let service: TaskService;
@@ -37,7 +38,7 @@ describe('TaskService', () => {
   });
 
   it('should create a task', async () => {
-    const result = await service.createTask('Test Task', 'Task Description', 'To Do');
+    const result = await service.createTask('Test Task', 'Task Description', TaskStatus.TODO);
     expect(result).toEqual({ id: 1, title: 'Test Task' });
     expect(repo.create).toHaveBeenCalled();
     expect(repo.save).toHaveBeenCalled();
