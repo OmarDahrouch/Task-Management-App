@@ -17,6 +17,7 @@
     </div>
     <!-- Add Button Part -->
     <button
+      title="Add Task"
       @click="openAddModal"
       class="relative flex items-center justify-center bg-orange-600 text-white rounded-full shadow-lg transition-all duration-300 ease-in-out overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500"
       :class="{ 'w-32': isHovered, 'w-10 h-10': !isHovered }"
